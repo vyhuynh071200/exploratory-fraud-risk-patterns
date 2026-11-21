@@ -1,55 +1,61 @@
 # Exploratory Fraud Risk Patterns
 
-**Focus:** Exploratory data analysis of synthetic bank-transaction data to investigate which transaction characteristics show associations with fraud.
+**R · Data Cleaning · Exploratory Data Analysis · Data Visualization**
 
-## Why this project matters
-Fraud is a minority outcome. Comparing raw fraud counts can be misleading when transaction volumes differ across groups. This project uses rate-based comparisons and data visualizations to identify potential indicators for further investigation — **not** to claim a deployed fraud-detection model.
+> **Analytical question:** Which transaction characteristics show higher observed fraud shares, and how can we explore them without confusing a balanced sample with real-world prevalence?
 
-## Analysis workflow
-1. Load and validate transaction fields.
-2. Prepare variables and check missingness and class composition.
-3. Compare fraud rates by transaction context, timing, account behavior, and authentication signals.
-4. Generate plots and discuss limitations, class imbalance, and practical interpretation.
+![Observed fraud share by failed authentication attempts](./assets/fraud_share_by_failed_attempts.svg)
 
-**Tools:** R, R Markdown, dplyr/tidyverse, ggplot2, knitr, patchwork and related packages.
+*Figure: calculated from the public **2,000-row balanced synthetic sample**. These percentages describe only that sample, not the fraud rate in a real bank or the full synthetic dataset.*
 
-## Findings from the full synthetic-data analysis
-The project's R Markdown report states that **5.53%** of transactions in the full synthetic dataset were labelled fraudulent. The strongest visible exploratory associations included:
-- repeated failed authentication attempts;
-- night / early-morning timing;
-- international transaction status;
-- recent PIN changes;
-- merchant category.
+## At a glance
 
-Weekend status and account balance showed weaker visual separation. These are **observational, dataset-specific associations**, not independently validated predictive factors or evidence of causation.
+| | |
+| --- | --- |
+| **Domain** | Transaction analytics / fraud-risk exploration |
+| **Methods** | Data validation, segment-level rates, exploratory charts |
+| **Tools** | R, tidyverse, ggplot2, R Markdown |
+| **Deliverables** | Reproducible R code, analysis report, data-backed preview |
 
-## Portfolio-ready code
+### What the sample chart shows
 
-- **[Standalone R analysis](./analysis/fraud_risk_eda.R)** — a shorter, documented script with schema checks and tidy descriptive outputs.
-- [How to run the standalone analysis](./analysis/README.md)
+In the balanced demonstration sample, the observed fraud share is **44.4%** for zero failed attempts (646/1,456), **44.4%** for one failed attempt (84/189), and **76.1%** for two or more failed attempts (270/355). This illustrates how segment-level percentages can reveal patterns that are obscured by transaction counts. **It does not validate a predictive rule**; the sample is deliberately balanced.
 
-The standalone script is designed to read the supplied balanced sample without modifying the original academic analysis. Its execution has not yet been verified in an R runtime.
+### Key takeaways from the academic study
 
-## Reproducibility: an important distinction
-- **[Source R Markdown](./submit/Exploratory_Fraud_Risk_Patterns.Rmd)**
-- **[Sample data and run instructions](./submit/README.md)**
-- **[Rendered analysis report](./submit/Exploratory_Fraud_Risk_Patterns.pdf)**
+The original analysis of a larger **synthetic** dataset reported an overall fraud share of **5.53%** and explored associations involving repeated failed attempts, time of day, international status, PIN changes, and merchant categories. Account balance and weekend status were less clearly separated. The study was **descriptive**, not causal or predictive.
 
-The shared `submit/data/sample_transactions.csv` contains a deliberately **balanced 2,000-row sample** for testing the workflow. Its class proportions are **not** representative of the full dataset, so sample-derived plots must not be used to estimate real fraud prevalence or reproduce the full report's results.
+## Code and evidence
 
-For a local demonstration:
-1. Install R, R Markdown, required packages, Pandoc and a LaTeX distribution.
-2. Open the [`submit` directory](./submit/) as the working directory.
-3. Render `Exploratory_Fraud_Risk_Patterns.Rmd` (for example, using the instructions in `submit/README.md`).
-4. The analysis selects the sample demonstration mode if the full dataset is absent.
+| Resource | What you will find |
+| --- | --- |
+| [Standalone R analysis](./analysis/fraud_risk_eda.R) | Short, readable script: required-column checks, group summaries and CSV/chart outputs |
+| [Standalone analysis instructions](./analysis/README.md) | Local setup and expected output files |
+| [Academic R Markdown](./submit/Exploratory_Fraud_Risk_Patterns.Rmd) | Original full EDA and figure-generation workflow |
+| [Academic paper PDF](./submit/Exploratory_Fraud_Risk_Patterns.pdf) | Report with methodology, discussion and limitations |
+| [Synthetic sample CSV](./submit/data/sample_transactions.csv) | Balanced 2,000-row demonstration dataset |
 
-The full dataset is not bundled as the default sample; the code can take a full dataset path from the `BANK_FRAUD_FULL_DATA` environment variable.
+### Run the short analysis
 
-## Limitations
-- The underlying data are **synthetic**, so findings should not be generalized directly to real bank customers.
-- This is EDA and descriptive interpretation, not a trained or independently evaluated fraud classifier.
-- The sample is intentionally balanced and is unsuitable for prevalence estimates.
-- Additional independent validation would be needed before operational recommendations.
+From the repository root, after installing the R packages `readr`, `dplyr`, `ggplot2`, and `scales`:
+
+```bash
+Rscript analysis/fraud_risk_eda.R
+```
+
+This creates descriptive summaries and a local chart in `outputs/`. The script has been run successfully by the repository owner on macOS. The full academic report uses a separate workflow and full synthetic dataset that is **not packaged** here.
+
+## Limitations & responsible interpretation
+
+- The data are **synthetic**, not real banking transactions.
+- The included 2,000-row sample is **balanced by design** (1,000 fraud and 1,000 non-fraud cases). Its rates cannot estimate underlying prevalence.
+- Group differences are exploratory associations; **no validated classifier, train/test evaluation, or causal identification** is claimed.
+- The larger synthetic-data results and the demonstration sample must not be mixed.
+
+## Project credits
+
+Original academic research and paper: **Ngoc Khanh Vy Huynh and Keyao Li**. This portfolio page highlights the exploratory approach and a standalone demonstration.
 
 ---
-*Academic analysis by Ngoc Khanh Vy Huynh and Keyao Li. Portfolio documentation and standalone demonstration code prepared for technical review.*
+
+[Back to Data Analyst portfolio](https://github.com/vyhuynh071200)
