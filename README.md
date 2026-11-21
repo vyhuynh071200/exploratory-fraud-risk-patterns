@@ -1,4 +1,4 @@
-# Exploratory Fraud Risk Patterns — R Data Analysis
+# Exploratory Fraud Risk Patterns
 
 **Focus:** Exploratory data analysis of synthetic bank-transaction data to investigate which transaction characteristics show associations with fraud.
 
